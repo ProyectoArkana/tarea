@@ -1,0 +1,15 @@
+stages:
+  - install
+  - build
+
+install_dependencies:
+  stage: install
+  script:
+    - echo "Instalando dependencias..."
+    - npm install
+
+build_project:
+  stage: build
+  script:
+    - echo "Construyendo proyecto..."
+    - npm run build
