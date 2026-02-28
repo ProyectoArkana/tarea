@@ -20,3 +20,8 @@ class User(db.Model):
             'username': self.username,
             'email': self.email
         }
+    
+    def check_password(self, password :str) -> bool:
+        #return bcrypt.verify(password)
+        password_encode = password.encode ('utf-8')[:72]
+        return pbkdf2_sha256.hash(password_encode)
