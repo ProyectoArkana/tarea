@@ -1,8 +1,8 @@
-"""descripcion_de_la_migracion
+"""migracion limpia
 
-Revision ID: 21cd8f3b33d3
+Revision ID: f71f28477961
 Revises: 
-Create Date: 2026-02-13 23:35:37.438204
+Create Date: 2026-03-14 00:45:14.196345
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '21cd8f3b33d3'
+revision = 'f71f28477961'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,9 +21,11 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=80), nullable=False),
-    sa.Column('password', sa.String(length=128), nullable=False),
+    sa.Column('password', sa.String(length=128), nullable=True),
     sa.Column('email', sa.String(length=80), nullable=False),
+    sa.Column('cognito_sub', sa.String(length=128), nullable=False),
     sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('cognito_sub'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )

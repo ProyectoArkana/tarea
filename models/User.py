@@ -6,8 +6,9 @@ class User(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
+    password = db.Column(db.String(128), nullable=True)
     email = db.Column(db.String(80), unique=True, nullable=False)
+    cognito_sub = db.Column(db.String(128), unique=True, nullable=False)
     
     def set_password(self, password: str):
         #self.password = bcrypt.hash(password)
@@ -18,7 +19,8 @@ class User(db.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'cognito_sub': self.cognito_sub
         }
     
     def check_password(self, password :str) -> bool:

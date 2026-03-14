@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from settings.secret import get_db_password
+from settings.secret import SecretsManagerService
 
 load_dotenv()
 
@@ -10,16 +10,18 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY')
     ENV = os.getenv('FLASK_ENV')
 
-    # Datos no sensibles desde .env
     DB_HOST = os.getenv('DB_HOST')
     DB_USER = os.getenv('DB_USER')
     DB_PORT = os.getenv('DB_PORT')
     DB_NAME = os.getenv('DB_NAME')
 
-    # Contraseña desde AWS Secrets Manager
-    DB_PASSWORD = get_db_password()
+    secrets_service = SecretsManagerService(
+        region="us-east-2",
+        secret_name="api82/db/password"
+    )
 
-    # Construcción dinámica de la URI
+    DB_PASSWORD = secrets_service.get_db_password()
+
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
