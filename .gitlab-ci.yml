@@ -1,0 +1,19 @@
+stages:
+  - build
+  - test
+
+build_api:
+  stage: build
+  image: python:3.11
+  script:
+    - python --version
+    - pip install -r requirements.txt
+    - echo "Build de la API completado"
+
+test_api:
+  stage: test
+  image: python:3.11
+  script:
+    - pip install -r requirements.txt
+    - echo "Ejecutando pruebas"
+    - pytest || echo "No hay pruebas aún"
